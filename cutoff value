@@ -14,23 +14,21 @@ gds_z<-as.data.frame(apply(gds_sum,1,sum))
 sy1<-cbind(amap,gds_z)
 colnames(sy1)[3]<-"gsum"
 xh1_k<-data.frame()
-for (i in seq(1.81746822870386, 0.1155041, by = -0.01)){
-  for(j in seq(0.0897367304327388,0.1155041,by= 0.01)){
+for (i in seq(2.10, 0.1155041, by = -0.01)){
+  for(j in seq(-0.52,0.1155041,by= 0.01)){
     xh1<-sy1
     xh1$F1[xh1$F1<i & xh1$F1>j]<-NA
     xh1$F1[xh1$F1>=i]<-1
     xh1$F1[xh1$F1<=j]<-0
     xh1<-na.omit(xh1)
     xh1_p<-as.data.frame(t.test(gsum~F1,xh1)$p.value)
-    xh1_est<-as.data.frame(t.test(gsum~F1,xh1)$estimate)
     xh1_sta<-as.data.frame(t.test(gsum~F1,xh1)$statistic)
     high<-as.data.frame(i)
     low<-as.data.frame(j)
-    xh1_z<-cbind(high,low,xh1_p,xh1_sta,xh1_est)
+    xh1_z<-cbind(high,low,xh1_p,xh1_sta)
     xh1_k<-rbind(xh1_k,xh1_z)
   }
 }
+#xh1_est<-as.data.frame(t.test(gsum~F1,xh1)$estimate)
 colnames(xh1_k)[4]<-"tvalue"
 which.min(xh1_k$tvalue)
-#high:1.227468
-#low:0.08973673;0.09973673;0.10973673
