@@ -32,3 +32,14 @@ for (i in seq(2.10, 0.1155041, by = -0.01)){
 #xh1_est<-as.data.frame(t.test(gsum~F1,xh1)$estimate)
 colnames(xh1_k)[4]<-"tvalue"
 which.min(xh1_k$tvalue)
+
+#Drawing
+library(ggpubr)
+library(ggplot2)
+min_tvalue_x <- unique(xh1_k$i[which.min(xh1_k$tvalue)])
+ggline(xh1_k, "i", "tvalue") + 
+  scale_x_discrete(breaks = NULL) +
+  geom_vline(xintercept = min_tvalue_x, color = "red", linetype = "dashed") +
+  annotate("text", x = min_tvalue_x, y = -Inf, 
+           label = paste0("i = ", min_tvalue_x), vjust = -0.5, color = "red") +
+  labs(x = NULL, y = "t-value")
